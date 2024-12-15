@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Cáncer Colorrectal</title>
+    <script>
+        // Función para mostrar/ocultar preguntas basadas en la respuesta de antecedentes familiares
+        function toggleAntecedentes() {
+            const antecedentes = document.getElementById("antFliar").value;
+            const conoceEdadSection = document.getElementById("conoce-edad-section");
+            const edadDiagnosticoSection = document.getElementById("edad-diagnostico-section");
+
+            if (antecedentes === "Si") {
+                // Muestra la pregunta "¿Conoce la edad del diagnóstico?"
+                conoceEdadSection.style.display = "block";
+                edadDiagnosticoSection.style.display = "none"; // Oculta edad específica
+            } else {
+                // Oculta ambas preguntas si no hay antecedentes
+                conoceEdadSection.style.display = "none";
+                edadDiagnosticoSection.style.display = "none";
+            }
+        }
+
+        // Función para mostrar/ocultar la edad del diagnóstico
+        function toggleEdadDiagnostico() {
+            const conoceEdad = document.getElementById("edadFamiliar").value;
+            const edadDiagnosticoSection = document.getElementById("edad-diagnostico-section");
+
+            if (conoceEdad === "Si") {
+                // Muestra la pregunta de edad específica
+                edadDiagnosticoSection.style.display = "block";
+            } else {
+                // Oculta la pregunta de edad específica
+                edadDiagnosticoSection.style.display = "none";
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+        h1 {
+            color: darkblue;
+        }
+        label {
+            font-size: 14px;
+            color: #333;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pesquisa de Cáncer Colorrectal</h1>
+    <form action="/result" method="post">
+        <label for="firstName">Nombre:</label><br>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+
+        <label for="edad">Edad:</label><br>
+        <input type="number" id="edad" name="edad" required><br><br>
+
+        <label for="sexo">Sexo al nacimiento:</label><br>
+        <select id="sexo" name="sexo">
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+        </select><br><br>
+
+        <!-- Pregunta sobre antecedentes familiares -->
+        <label for="antFliar">¿Tienes antecedentes familiares?</label><br>
+        <select id="antFliar" name="antFliar" onchange="toggleAntecedentes()">
+            <option value="">Selecciona</option>
+            <option value="Si">Sí</option>
+            <option value="No">No</option>
+            <option value="No sé">No sé</option>
+        </select><br><br>
+
+        <!-- Sección "¿Conoce la edad del diagnóstico?" -->
+        <div id="conoce-edad-section" class="hidden">
+            <label for="edadFamiliar">¿Conoce la edad del diagnóstico de su familiar?</label><br>
+            <select id="edadFamiliar" name="edadFamiliar" onchange="toggleEdadDiagnostico()">
+                <option value="">Selecciona</option>
+                <option value="Si">Sí</option>
+                <option value="No">No</option>
+            </select><br><br>
+        </div>
+
+        <!-- Sección "Edad al diagnóstico del familiar" -->
+        <div id="edad-diagnostico-section" class="hidden">
+            <label for="edadDiagnostico">Edad al diagnóstico del familiar:</label><br>
+            <input type="number" id="edadDiagnostico" name="edadDiagnostico"><br><br>
+        </div>
+
+        <label for="sintomas">¿Presentas alguno de los siguientes síntomas digestivos?</label><br>
+        <p>
+            1. Dolor abdominal<br>
+            2. Sangrado con las heces<br>
+            3. Pérdida de peso involuntaria<br>
+            4. Anemia<br>
+            5. Diarrea o cambio en el ritmo evacuatorio
+        </p>
+        <select id="sintomas" name="sintomas">
+            <option value="Si">Sí</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
